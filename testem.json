@@ -1,0 +1,11 @@
+{
+  "framework": "mocha",
+  "src_files": [
+    "node_modules/chai/chai.js",
+    "node_modules/sinon/pkg/sinon.js",
+    "src/stats_gopher.js",
+    "src/stats_gopher.listener.js",
+    "test/stats_gopher_test.js",
+    "test/stats_gopher.listener_test.js"
+  ]
+}

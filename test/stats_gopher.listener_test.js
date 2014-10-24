@@ -1,8 +1,4 @@
-var chai   = require('chai');
 var expect = chai.expect;
-var sinon = require('sinon');
-var StatsGopher = require('stats_gopher').StatsGopher;
-require('stats_gopher.listener');
 
 describe('StatsGopher.Listener', function() {
   var listener, statsGopher;
@@ -26,6 +22,6 @@ describe('StatsGopher.Listener', function() {
     // listenToClicks: function (selector) {
     //   $(selector || window).click(this.trackEvent.bind(this));
     // },
-    
+
   })
 });
