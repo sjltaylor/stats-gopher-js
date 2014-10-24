@@ -113,9 +113,3 @@ StatsGopher.docCookie = {
     return aKeys;
   }
 };
-
-if ('window' in this) {
-  exports = window
-}
-
-exports.StatsGopher = StatsGopher

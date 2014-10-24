@@ -1,7 +1,4 @@
-var chai   = require('chai');
 var expect = chai.expect;
-var sinon = require('sinon');
-var StatsGopher = require('stats_gopher').StatsGopher;
 
 describe('StatsGopher', function() {
   function catchError(fn) {
