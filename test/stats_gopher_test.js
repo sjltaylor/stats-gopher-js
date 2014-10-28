@@ -126,6 +126,13 @@ describe('StatsGopher', function() {
         statsGopher.send(datum);
         expect(datum.sid).to.equal("SID-123");
       });
+      it('stamps the datum with the eventType "UserAction"', function () {
+        var datum = {
+          eventType: 'test-event'
+        };
+        statsGopher.send(datum);
+        expect(datum.eventType).to.equal('UserAction');
+      });
       it('starts the buffer', function () {
         statsGopher.startBuffer = sinon.spy(function () {
           statsGopher.deferred = new SpyDeferred()
