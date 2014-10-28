@@ -44,6 +44,7 @@ where `jQuery` is expected to be a jQuery-like interface with a `.ajax` method
 ```
   var helper = new StatsGopher.Helper(statsGopher);
   helper.listenToClicks();
+  helper.listenToMousedown();
 ```
 
 listens to all window clicks and reports click events.
@@ -71,7 +72,7 @@ listens to all window clicks and reports click events.
 
 ```
 
-The `data` looks like this:
+Where `data` looks like this:
 
 ```
   {

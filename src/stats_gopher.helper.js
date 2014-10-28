@@ -8,6 +8,11 @@ StatsGopher.Helper.prototype = {
       this.trackEvent(e, 'click');
     }.bind(this));
   },
+  listenToMousedown: function (selector) {
+    window.addEventListener('mousedown', function (e) {
+      this.trackEvent(e, 'mousedown');
+    }.bind(this));
+  },
   trackEvent: function (e, interaction) {
     this.statsGopher.send(this.elementData(e.target, interaction));
   },

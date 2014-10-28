@@ -17,6 +17,30 @@ describe('StatsGopher.Helper', function() {
       });
     });
   });
+  describe('listenToClicks', function () {
+    it('binds trackEvent to window click events', function () {
+      helper.trackEvent = sinon.spy();
+      helper.listenToClicks();
+      var event = new MouseEvent('click', {
+        canBubble: true,
+        cancelable: true
+      });
+      window.dispatchEvent(event);
+      expect(helper.trackEvent.calledWith(event, 'click')).to.equal(true);
+    });
+  });
+  describe('listenToMousedown', function () {
+    it('binds trackEvent to window click events', function () {
+      helper.trackEvent = sinon.spy();
+      helper.listenToMousedown();
+      var event = new MouseEvent('mousedown', {
+        canBubble: true,
+        cancelable: true
+      });
+      window.dispatchEvent(event);
+      expect(helper.trackEvent.calledWith(event, 'mousedown')).to.equal(true);
+    });
+  });
   describe('trackEvent(event, interaction)', function () {
     it('extracts and sends event data', function () {
       var data = {}, event = { target: {} };
