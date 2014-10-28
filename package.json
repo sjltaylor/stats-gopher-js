@@ -4,8 +4,8 @@
   "description": "Client library for a stats-gopher",
   "main": "gopher.js",
   "scripts": {
-    "test": "NODE_PATH=./src mocha",
-    "dist": "mkdir -p dist && cp src/stats_gopher.js dist/stats_gopher.js && uglifyjs dist/stats_gopher.js > dist/stats_gopher.min.js"
+    "test": "testem ci -l chrome,firefox,ie,safari",
+    "dist": "gulp dist"
   },
   "repository": {
     "type": "git",
@@ -22,7 +22,8 @@
     "gulp": "^3.8.9",
     "mocha": "latest",
     "sinon": "latest",
-    "uglify-js": "latest",
+    "gulp-uglify": "latest",
+    "gulp-concat": "latest",
     "testem": "latest"
   }
 }
