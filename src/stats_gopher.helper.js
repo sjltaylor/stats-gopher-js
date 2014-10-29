@@ -29,7 +29,7 @@ StatsGopher.Helper.prototype = {
 
     var currentNode = el;
 
-    while (currentNode) {
+    while (currentNode && currentNode.tagName) {
       if ('key' in currentNode.dataset) {
         path.unshift(currentNode.dataset.key)
       }
