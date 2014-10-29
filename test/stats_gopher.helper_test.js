@@ -93,6 +93,9 @@ describe('StatsGopher.Helper', function() {
       expect(!!h1).to.equal(true);
       expect(data.pageTitle).to.equal(h1);
     });
+    it('includes the user agent', function () {
+      expect(data.userAgent).to.equal(window.navigator.userAgent);
+    });
     it('includes the window title', function () {
       expect(data.windowTitle).to.equal(document.title);
     });

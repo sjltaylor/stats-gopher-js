@@ -44,6 +44,7 @@ StatsGopher.Helper.prototype = {
     data.pageTitle = h1.textContent;
     data.windowTitle = document.title;
     data.text = el.textContent;
+    data.userAgent = window.navigator.userAgent;
 
     if (el.tagName === 'A') {
       data.href = el.href;
