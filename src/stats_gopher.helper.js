@@ -21,27 +21,30 @@ StatsGopher.Helper.prototype = {
       interaction: interaction
     };
 
-    for (var attr in el.dataset) {
-      data[attr] = el.dataset[attr];
-    }
-
-    var path = [];
-
-    var currentNode = el;
+    var path = [], currentNode = el;
 
     while (currentNode && currentNode.tagName) {
-      if ('key' in currentNode.dataset) {
-        path.unshift(currentNode.dataset.key)
-      }
-
-      if (currentNode.tagName === 'A') {
-        data.href = currentNode.href;
-      }
-
+      path.unshift(currentNode);
       currentNode = currentNode.parentNode;
     }
 
-    data.key = path.join('/');
+    var keys = [];
+
+    path.forEach(function (node) {
+      if ('key' in node.dataset) {
+        keys.push(node.dataset.key);
+      }
+
+      if (node.tagName === 'A') {
+        data.href = node.href;
+      }
+
+      for (var attr in node.dataset) {
+        data[attr] = node.dataset[attr];
+      }
+    });
+
+    data.key = keys.join('/');
 
     var h1 = document.querySelector('h1') || { textContent: '' };
 

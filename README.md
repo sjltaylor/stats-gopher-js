@@ -53,9 +53,9 @@ listens to all window clicks and reports click events.
 
 ```
   var span = /* the span at the leaf of this fragment...
-    <body>
+    <body data-another-attribute="body">
       <div data-key="ancestor">
-        <section>
+        <section data-section-type="something">
           <div data-key="leaf-parent">
             <span data-key="leaf"
                   data-value="hello-world"
@@ -85,7 +85,11 @@ Where `data` looks like this:
     pageTitle: "<the textContent of the first h1>",
     windowTitle: "<the document.title>",
     text: "target-text",
+    sectionType: "something",
     href: "<the href value if the el is an anchor>"
   }
 
 ```
+
+Note that the data attributes are collected by traversing up the dom, giving
+precedence to deeper nodes.

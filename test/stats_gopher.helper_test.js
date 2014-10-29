@@ -61,9 +61,9 @@ describe('StatsGopher.Helper', function() {
       var html = document.createElement('HTML');
       html.dataset.key = 'html-key';
       html.innerHTML = '\
-        <body>\
+        <body data-body-value="body-value">\
           <div data-key="ancestor">\
-            <section>\
+            <section data-value="hello-parent"\>\
               <div data-key="leaf-parent">\
                 <span data-key="leaf"\
                       data-value="hello-world"\
@@ -105,6 +105,7 @@ describe('StatsGopher.Helper', function() {
     describe('when the event target element has a data-interaction attribute', function () {
       beforeEach(function () {
         var el = {
+          tagName: 'DIV',
           dataset: {
             interaction: 'prod'
           }
@@ -143,9 +144,10 @@ describe('StatsGopher.Helper', function() {
       });
     });
     describe('data attribute collection', function () {
-      it('includes any data attributes on the target element', function () {
+      it('collects any data attributes in the path from root to target element', function () {
         expect(data['value']).to.equal('hello-world');
         expect(data['anotherAttribute']).to.equal('another-value');
+        expect(data['bodyValue']).to.equal('body-value');
       });
       describe('when there is a naming collision with predefined data attribute', function () {
         it('disregards the data attribute value', function () {
