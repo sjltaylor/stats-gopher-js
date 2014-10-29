@@ -116,15 +116,22 @@ describe('StatsGopher.Helper', function() {
         expect(data.interaction).to.equal('prod');
       });
     });
-    describe('when the target element is an anchor', function() {
+    describe('when the target element has an anchor in its path', function() {
       var href;
 
       beforeEach(function () {
         href = 'http://example.net'
 
-        var el = {
+        var a = {
           tagName: 'A',
           href: href,
+          textContent: 'anchor-text',
+          dataset: {}
+        };
+
+        var el = {
+          parentNode: a,
+          tagName: 'SPAN',
           textContent: 'some-text',
           dataset: {}
         };

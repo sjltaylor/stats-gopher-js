@@ -33,6 +33,11 @@ StatsGopher.Helper.prototype = {
       if ('key' in currentNode.dataset) {
         path.unshift(currentNode.dataset.key)
       }
+
+      if (currentNode.tagName === 'A') {
+        data.href = currentNode.href;
+      }
+
       currentNode = currentNode.parentNode;
     }
 
@@ -45,10 +50,6 @@ StatsGopher.Helper.prototype = {
     data.windowTitle = document.title;
     data.text = el.textContent;
     data.userAgent = window.navigator.userAgent;
-
-    if (el.tagName === 'A') {
-      data.href = el.href;
-    }
 
     return data;
   }
