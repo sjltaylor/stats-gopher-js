@@ -125,10 +125,15 @@ StatsGopher.Helper.prototype = {
       this.trackEvent(e, 'click');
     }.bind(this));
   },
-  trackEvent: function (e, interaction) {
-    this.statsGopher.send(this.elementData(e.target, interaction));
+  listenToMousedown: function (selector) {
+    window.addEventListener('mousedown', function (e) {
+      this.trackEvent(e, 'mousedown');
+    }.bind(this));
   },
-  elementData: function (el, interaction) {
+  trackEvent: function (e, interaction) {
+    this.statsGopher.send(this.collectData(e.target, interaction));
+  },
+  collectData: function (el, interaction) {
     var data = {
       interaction: interaction
     };
@@ -156,6 +161,7 @@ StatsGopher.Helper.prototype = {
     data.pageTitle = h1.textContent;
     data.windowTitle = document.title;
     data.text = el.textContent;
+    data.userAgent = window.navigator.userAgent;
 
     if (el.tagName === 'A') {
       data.href = el.href;
