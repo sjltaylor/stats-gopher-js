@@ -14,9 +14,9 @@ StatsGopher.Helper.prototype = {
     }.bind(this));
   },
   trackEvent: function (e, interaction) {
-    this.statsGopher.send(this.elementData(e.target, interaction));
+    this.statsGopher.send(this.collectData(e.target, interaction));
   },
-  elementData: function (el, interaction) {
+  collectData: function (el, interaction) {
     var data = {
       interaction: interaction
     };

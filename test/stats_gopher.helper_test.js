@@ -44,17 +44,17 @@ describe('StatsGopher.Helper', function() {
   describe('trackEvent(event, interaction)', function () {
     it('extracts and sends event data', function () {
       var data = {}, event = { target: {} };
-      helper.elementData = sinon.spy(function () {
+      helper.collectData = sinon.spy(function () {
         return data;
       });
 
       helper.trackEvent(event, 'interaction');
 
-      expect(helper.elementData.calledWith(event.target, 'interaction')).to.equal(true);
+      expect(helper.collectData.calledWith(event.target, 'interaction')).to.equal(true);
       expect(helper.statsGopher.send.calledWith(data)).to.equal(true);
     });
   });
-  describe('elementData(event, interaction)', function() {
+  describe('collectData(el, interaction)', function() {
     var data;
 
     beforeEach(function () {
@@ -77,7 +77,7 @@ describe('StatsGopher.Helper', function() {
 
       var el = html.querySelector('span');
 
-      data = helper.elementData(el, 'click');
+      data = helper.collectData(el, 'click');
     });
 
     it('includes the page location', function () {
@@ -107,7 +107,7 @@ describe('StatsGopher.Helper', function() {
           }
         };
 
-        data = helper.elementData(el, 'click');
+        data = helper.collectData(el, 'click');
       });
       it('overrides the interaction parameter', function () {
         expect(data.interaction).to.equal('prod');
@@ -126,7 +126,7 @@ describe('StatsGopher.Helper', function() {
           dataset: {}
         };
 
-        data = helper.elementData(el, 'click');
+        data = helper.collectData(el, 'click');
       });
       it('includes the href', function () {
         expect(data.href).to.equal(href);
