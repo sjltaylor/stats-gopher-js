@@ -4,8 +4,6 @@
     "node_modules/chai/chai.js",
     "node_modules/sinon/pkg/sinon.js",
     "src/stats_gopher.js",
-    "src/stats_gopher.helper.js",
-    "test/stats_gopher_test.js",
-    "test/stats_gopher.helper_test.js"
+    "test/stats_gopher_test.js"
   ]
 }

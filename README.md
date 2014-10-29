@@ -7,7 +7,7 @@ Javascript client for Stats Gopher
 
 ## Installing
 
-`npm run dist` builds and minified the library to `./dist`
+`gulp dist` builds and minified the library to `./dist`
 
 Serve `dist/stats_gopher[.min].js` from within your app
 
@@ -31,65 +31,10 @@ where `jQuery` is expected to be a jQuery-like interface with a `.ajax` method
 
 ```
   statsGopher.send({
+    anything: "you like",
     ...
   })
 ```
 
 * add arbitary data to the event
-* the `eventType` field is set to `UserAction` by the stats gopher
 * the `send` method stamps the event with a `sendTime`
-
-### Helpers
-
-```
-  var helper = new StatsGopher.Helper(statsGopher);
-  helper.listenToClicks();
-  helper.listenToMousedown();
-```
-
-listens to all window clicks and reports click events.
-
-#### Collecting Attributes
-
-```
-  var span = /* the span at the leaf of this fragment...
-    <body data-another-attribute="body">
-      <div data-key="ancestor">
-        <section data-section-type="something">
-          <div data-key="leaf-parent">
-            <span data-key="leaf"
-                  data-value="hello-world"
-                  data-another-attribute="another-value"
-                  data-page-title="some-other-title"
-            >target-text</span>
-          </div>
-        </section>
-      </div>
-    </body>
-  */
-  var data = helper.elementData(el, 'click')
-  statsGopher.send(data);
-
-```
-
-Where `data` looks like this:
-
-```
-  {
-    eventType: "UserAction",
-    key: "ancestor/leaf-parent/leaf",
-    value: "hello-world",
-    anotherAttribute: "another-value",
-    interaction: "click",
-    location: "<window.location.toString()>",
-    pageTitle: "<the textContent of the first h1>",
-    windowTitle: "<the document.title>",
-    text: "target-text",
-    sectionType: "something",
-    href: "<the href value if the el is an anchor>"
-  }
-
-```
-
-Note that the data attributes are collected by traversing up the dom, giving
-precedence to deeper nodes.

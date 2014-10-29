@@ -22,7 +22,6 @@ StatsGopher.prototype = {
   send: function (datum) {
     datum.sendTime = new Date().valueOf()
     datum.sid = this.sid
-    datum.eventType = 'UserAction'
     this.startBuffer()
     this.buffer.push(datum)
     return this.deferred.promise()
