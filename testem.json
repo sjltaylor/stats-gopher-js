@@ -4,6 +4,8 @@
     "node_modules/chai/chai.js",
     "node_modules/sinon/pkg/sinon.js",
     "src/stats_gopher.js",
-    "test/stats_gopher_test.js"
+    "src/stats_gopher.presence_monitor.js",
+    "test/stats_gopher_test.js",
+    "test/stats_gopher.presence_monitor_test.js"
   ]
 }

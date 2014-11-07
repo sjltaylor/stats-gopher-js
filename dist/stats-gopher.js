@@ -113,3 +113,65 @@ StatsGopher.docCookie = {
     return aKeys;
   }
 };
+
+StatsGopher.PresenceMonitor = function PresenceMonitor (options) {
+  options = options || {};
+
+  this.statsGopher = options.statsGopher;
+  this.send = this.executeNextSend;
+}
+
+StatsGopher.PresenceMonitor.prototype = {
+  log: function () {
+    if (this.options.log) {
+      console.log.apply(console, arguments);
+    }
+  },
+  ignoreNextSend: function () {
+  },
+  queueNextSend: function () {
+    this.request.done(function () {
+      this.send()
+    }.bind(this))
+    this.send = this.ignoreNextSend
+  },
+  executeNextSend: function () {
+    this.request = this.statsGopher.send({
+      code: this.code
+    }).done(function () {
+      this.send = this.executeNextSend
+    }.bind(this));
+
+    this.send = this.queueNextSend
+  }
+}
+
+StatsGopher.Heartbeat = StatsGopher.PresenceMonitor.bind(this)
+StatsGopher.Heartbeat.prototype = new StatsGopher.PresenceMonitor()
+StatsGopher.Heartbeat.prototype.code = 'heartbeat'
+StatsGopher.Heartbeat.prototype.start = function () {
+  this.send()
+  setTimeout(this.send.bind(this), 10000)
+}
+
+StatsGopher.UserActivity = StatsGopher.PresenceMonitor.bind(this)
+StatsGopher.UserActivity.prototype = new StatsGopher.PresenceMonitor()
+StatsGopher.UserActivity.prototype.code = 'user-activity'
+StatsGopher.UserActivity.prototype.listen = function () {
+  var events = [
+    'pageshow',
+    'popstate',
+    'resize',
+    'click',
+    'mousedown',
+    'scroll',
+    'mousemove',
+    'keydown'
+  ];
+
+  events.forEach(function (eventName) {
+    window.addEventListener(eventName, function () {
+      this.send();
+    }.bind(this))
+  }.bind(this));
+}

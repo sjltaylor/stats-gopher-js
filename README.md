@@ -38,3 +38,37 @@ where `jQuery` is expected to be a jQuery-like interface with a `.ajax` method
 
 * add arbitary data to the event
 * the `send` method stamps the event with a `sendTime`
+
+
+## Presence Monitors
+
+The stats gopher has a presence endpoint which can be notified of different
+types of activity.
+
+The following helpers should be constructed with a `statsGopher` that has a
+presence `endpoint`.
+
+See the stats-gopher documentation: http://github.com/sjltaylor/stats-gopher
+
+```
+new StatsGopher.Heartbeat(statsGopher).start()
+```
+
+Sends a `heartbeat` signal to the presence endpoint in the background
+
+```
+new StatsGopher.UserActivity(statsGopher).listen()
+```
+
+Send `user-activity` signals when the following window events occur:
+
+* pageshow
+* popstate
+* resize
+* click
+* mousedown
+* scroll
+* mousemove
+* keydown
+
+Signalling is throttled; a `user-activity` event is not send for every event
