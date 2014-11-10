@@ -3,8 +3,9 @@ StatsGopher.PresenceMonitor = function PresenceMonitor (statsGopher) {
 }
 
 StatsGopher.PresenceMonitor.prototype = {
-  initialize: function (statsGopher) {
-    this.statsGopher = statsGopher;
+  initialize: function (opts) {
+    this.statsGopher = opts.statsGopher;
+    this.key = opts.key;
     this.send = this.executeNextSend;
     this.paused = false;
   },
@@ -29,7 +30,8 @@ StatsGopher.PresenceMonitor.prototype = {
     if (this.paused) return;
 
     this.request = this.statsGopher.send({
-      code: this.code
+      code: this.code,
+      key: this.key
     }).done(executeNextSend).fail(executeNextSend);
 
     this.send = this.queueNextSend
