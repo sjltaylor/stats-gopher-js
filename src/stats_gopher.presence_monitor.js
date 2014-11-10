@@ -4,6 +4,7 @@ StatsGopher.PresenceMonitor = function PresenceMonitor (statsGopher) {
 
 StatsGopher.PresenceMonitor.prototype = {
   initialize: function (opts) {
+    opts = opts || {};
     this.statsGopher = opts.statsGopher;
     this.key = opts.key;
     this.send = this.executeNextSend;
@@ -44,7 +45,7 @@ StatsGopher.PresenceMonitor.prototype = {
   }
 }
 
-StatsGopher.Heartbeat = StatsGopher.PresenceMonitor
+StatsGopher.Heartbeat = StatsGopher.PresenceMonitor.bind(this)
 StatsGopher.Heartbeat.prototype = new StatsGopher.PresenceMonitor()
 StatsGopher.Heartbeat.prototype.code = 'heartbeat'
 StatsGopher.Heartbeat.prototype.start = function () {
@@ -52,7 +53,7 @@ StatsGopher.Heartbeat.prototype.start = function () {
   setTimeout(this.start().bind(this), 10000)
 }
 
-StatsGopher.UserActivity = StatsGopher.PresenceMonitor
+StatsGopher.UserActivity = StatsGopher.PresenceMonitor.bind(this)
 StatsGopher.UserActivity.prototype = new StatsGopher.PresenceMonitor()
 StatsGopher.UserActivity.prototype.code = 'user-activity'
 StatsGopher.UserActivity.prototype.listen = function () {

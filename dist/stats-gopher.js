@@ -114,14 +114,18 @@ StatsGopher.docCookie = {
   }
 };
 
-StatsGopher.PresenceMonitor = function PresenceMonitor (options) {
-  options = options || {};
-
-  this.statsGopher = options.statsGopher;
-  this.send = this.executeNextSend;
+StatsGopher.PresenceMonitor = function PresenceMonitor (statsGopher) {
+  this.initialize(statsGopher)
 }
 
 StatsGopher.PresenceMonitor.prototype = {
+  initialize: function (opts) {
+    opts = opts || {};
+    this.statsGopher = opts.statsGopher;
+    this.key = opts.key;
+    this.send = this.executeNextSend;
+    this.paused = false;
+  },
   log: function () {
     if (this.options.log) {
       console.log.apply(console, arguments);
@@ -136,13 +140,24 @@ StatsGopher.PresenceMonitor.prototype = {
     this.send = this.ignoreNextSend
   },
   executeNextSend: function () {
-    this.request = this.statsGopher.send({
-      code: this.code
-    }).done(function () {
+    var executeNextSend = function () {
       this.send = this.executeNextSend
-    }.bind(this));
+    }.bind(this);
+
+    if (this.paused) return;
+
+    this.request = this.statsGopher.send({
+      code: this.code,
+      key: this.key
+    }).done(executeNextSend).fail(executeNextSend);
 
     this.send = this.queueNextSend
+  },
+  pause: function () {
+    this.paused = true
+  },
+  resume: function () {
+    this.paused = false
   }
 }
 
@@ -151,7 +166,7 @@ StatsGopher.Heartbeat.prototype = new StatsGopher.PresenceMonitor()
 StatsGopher.Heartbeat.prototype.code = 'heartbeat'
 StatsGopher.Heartbeat.prototype.start = function () {
   this.send()
-  setTimeout(this.send.bind(this), 10000)
+  setTimeout(this.start().bind(this), 10000)
 }
 
 StatsGopher.UserActivity = StatsGopher.PresenceMonitor.bind(this)

@@ -2,19 +2,22 @@
   "name": "stats-gopher-js",
   "version": "2.1.1",
   "description": "Client library for a stats-gopher",
+  "author": "Sam Taylor",
   "main": "dist/stats-gopher.min.js",
-  "scripts": {
-    "test": "testem ci -l chrome,firefox,ie,safari",
-    "dist": "gulp dist"
-  },
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "build",
+    "speed",
+    "test",
+    "*.md",
+    "AUTHORS.txt",
+    "Gruntfile.js",
+    "package.json"
+  ],
   "repository": {
     "type": "git",
     "url": "git@github.com:sjltaylor/stats-gopher-js.git"
-  },
-  "author": "Sam Taylor",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/sjltaylor/stats-gopher-js/issues"
   },
   "homepage": "https://github.com/sjltaylor/stats-gopher-js",
   "devDependencies": {
