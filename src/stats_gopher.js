@@ -13,9 +13,10 @@ function StatsGopher (options) {
     throw new Error("no 'endpoint' option specified")
   }
 
-  this.options = options
-  this.buffer = []
+  this.options = options;
+  this.buffer = [];
   this.sid = StatsGopher.sid();
+  this.timeout = options.timeout || 100;
 }
 
 StatsGopher.prototype = {
@@ -28,7 +29,7 @@ StatsGopher.prototype = {
   },
   startBuffer: function () {
     if ('timeout' in this) return
-    this.timeout = setTimeout(this.onTimeout.bind(this), 100)
+    this.timeout = setTimeout(this.onTimeout.bind(this), this.timeout)
     this.deferred = new this.options.Deferred()
   },
   flush: function () {
