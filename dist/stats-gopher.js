@@ -13,9 +13,10 @@ function StatsGopher (options) {
     throw new Error("no 'endpoint' option specified")
   }
 
-  this.options = options
-  this.buffer = []
+  this.options = options;
+  this.buffer = [];
   this.sid = StatsGopher.sid();
+  this.interval = options.interval || 100;
 }
 
 StatsGopher.prototype = {
@@ -28,7 +29,7 @@ StatsGopher.prototype = {
   },
   startBuffer: function () {
     if ('timeout' in this) return
-    this.timeout = setTimeout(this.onTimeout.bind(this), 100)
+    this.timeout = setTimeout(this.onTimeout.bind(this), this.interval)
     this.deferred = new this.options.Deferred()
   },
   flush: function () {
@@ -114,23 +115,15 @@ StatsGopher.docCookie = {
   }
 };
 
-StatsGopher.PresenceMonitor = function PresenceMonitor (statsGopher) {
-  this.initialize(statsGopher)
+StatsGopher.PresenceMonitor = function PresenceMonitor (opts) {
+  opts = opts || {};
+  this.statsGopher = opts.statsGopher;
+  this.key = opts.key;
+  this.send = this.executeNextSend;
+  this.paused = false;
 }
 
 StatsGopher.PresenceMonitor.prototype = {
-  initialize: function (opts) {
-    opts = opts || {};
-    this.statsGopher = opts.statsGopher;
-    this.key = opts.key;
-    this.send = this.executeNextSend;
-    this.paused = false;
-  },
-  log: function () {
-    if (this.options.log) {
-      console.log.apply(console, arguments);
-    }
-  },
   ignoreNextSend: function () {
   },
   queueNextSend: function () {
@@ -161,15 +154,20 @@ StatsGopher.PresenceMonitor.prototype = {
   }
 }
 
-StatsGopher.Heartbeat = StatsGopher.PresenceMonitor.bind(this)
+StatsGopher.Heartbeat = function (opts) {
+  StatsGopher.PresenceMonitor.apply(this, arguments)
+  this.timeout = (typeof opts.timeout) === 'number' ? opts.timeout : 10000;
+}
 StatsGopher.Heartbeat.prototype = new StatsGopher.PresenceMonitor()
 StatsGopher.Heartbeat.prototype.code = 'heartbeat'
 StatsGopher.Heartbeat.prototype.start = function () {
   this.send()
-  setTimeout(this.start().bind(this), 10000)
+  setTimeout(this.start.bind(this), 10000)
 }
 
-StatsGopher.UserActivity = StatsGopher.PresenceMonitor.bind(this)
+StatsGopher.UserActivity = function () {
+  StatsGopher.PresenceMonitor.apply(this, arguments)
+}
 StatsGopher.UserActivity.prototype = new StatsGopher.PresenceMonitor()
 StatsGopher.UserActivity.prototype.code = 'user-activity'
 StatsGopher.UserActivity.prototype.listen = function () {

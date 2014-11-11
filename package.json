@@ -1,6 +1,6 @@
 {
   "name": "stats-gopher-js",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "Client library for a stats-gopher",
   "main": "dist/stats-gopher.min.js",
   "scripts": {

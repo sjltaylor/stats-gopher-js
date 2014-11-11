@@ -16,7 +16,7 @@ function StatsGopher (options) {
   this.options = options;
   this.buffer = [];
   this.sid = StatsGopher.sid();
-  this.timeout = options.timeout || 100;
+  this.interval = options.interval || 100;
 }
 
 StatsGopher.prototype = {
@@ -29,7 +29,7 @@ StatsGopher.prototype = {
   },
   startBuffer: function () {
     if ('timeout' in this) return
-    this.timeout = setTimeout(this.onTimeout.bind(this), this.timeout)
+    this.timeout = setTimeout(this.onTimeout.bind(this), this.interval)
     this.deferred = new this.options.Deferred()
   },
   flush: function () {
