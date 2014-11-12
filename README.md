@@ -73,8 +73,6 @@ new StatsGopher.UserActivity({
 
 Send `user-activity` signals when the following window events occur:
 
-* pageshow
-* popstate
 * resize
 * click
 * mousedown
@@ -85,5 +83,3 @@ Send `user-activity` signals when the following window events occur:
 Signalling is throttled; a `user-activity` event is not sent for every event
 
 Presence monitors can be paused and resumed with `.pause()` and `.resume()`
-
- 

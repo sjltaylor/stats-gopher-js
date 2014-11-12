@@ -55,8 +55,6 @@ StatsGopher.UserActivity.prototype = new StatsGopher.PresenceMonitor()
 StatsGopher.UserActivity.prototype.code = 'user-activity'
 StatsGopher.UserActivity.prototype.listen = function () {
   var events = [
-    'pageshow',
-    'popstate',
     'resize',
     'click',
     'mousedown',
