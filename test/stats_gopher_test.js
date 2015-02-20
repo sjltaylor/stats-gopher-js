@@ -24,6 +24,8 @@ describe('StatsGopher', function() {
     this.promise = sinon.spy(returnPromise)
   }
 
+  var OriginalStatsGopherSid = StatsGopher.sid
+
   var spyAjaxFunction, postDeferred, postOptions;
 
   beforeEach(function () {
@@ -94,6 +96,43 @@ describe('StatsGopher', function() {
       expect(statsGopher.sid).to.equal(sid);
       expect(StatsGopher.sid.called).to.equal(true)
     });
+  });
+  describe('session recording', function() {
+    var statsGopher, options;
+    beforeEach(function () {
+      options = {
+        Deferred: SpyDeferred,
+        ajax: spyAjaxFunction,
+        endpoint: 'test-endpoint'
+      }
+    });
+    afterEach(function () {
+      document.cookie = 'testOne=;expires=Thu, 01 Jan 1970 00:00:00 GMT";'
+      document.cookie = 'testTwo=;expires=Thu, 01 Jan 1970 00:00:00 GMT";'
+      document.cookie = 'testThree=;expires=Thu, 01 Jan 1970 00:00:00 GMT";'
+      document.cookie = 'sg-sid=;expires=Thu, 01 Jan 1970 00:00:00 GMT";'
+    });
+    it('the cookie options are passed to the method that constructs the cookie', function() {
+      StatsGopher.sid = OriginalStatsGopherSid;
+      options.cookie = { domain: 'localhost', path: '/' }
+      sinon.spy(StatsGopher.docCookie, 'setItem');
+      statsGopher = new StatsGopher(options)
+      expect(StatsGopher.docCookie.setItem.calledWith(
+        sinon.match.any,
+        sinon.match.any,
+        { domain: 'localhost', path: '/' }
+      )).to.be.ok;
+    });
+    it('the cookie options are translated into a string that conforms to the document.cookie syntax', function() {
+      // We can't reliably test whether the cookie options have been included in document.cookie, so check the
+      // return value of the method.
+      var statsGopherCookie = StatsGopher.docCookie.setItem('testTwo', 'testValue', { expires: 'Fri, 31 Dec 9999 23:59:59 GMT' } )
+      expect(statsGopherCookie).to.equal('testTwo=testValue;expires=Fri, 31 Dec 9999 23:59:59 GMT')
+    });
+    it('the return value of the method that creates the cookie, is the same as the value of document.cookie', function() {
+      var statsGopherCookie = StatsGopher.docCookie.setItem('testThree', 'testValue');
+      expect(document.cookie).to.equal(statsGopherCookie);
+    })
   });
   describe('instance methods', function() {
     var statsGopher, options;
