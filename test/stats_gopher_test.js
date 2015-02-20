@@ -80,7 +80,7 @@ describe('StatsGopher', function() {
       var statsGopher = new StatsGopher(options)
       expect(statsGopher.buffer).to.have.length.of(0);
     });
-    it('assigns a sid', function () {
+    it('assigns an sid', function () {
       var options = {
         Deferred: SpyDeferred,
         ajax: spyAjaxFunction,
