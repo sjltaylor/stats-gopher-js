@@ -1,13 +1,6 @@
 var expect = chai.expect;
 
 describe('StatsGopher', function() {
-  function catchError(fn) {
-    try {
-      fn()
-    } catch (e) {
-      return e.toString()
-    }
-  }
 
   function SpyDeferred () {
     var returnSelf = function () { return this }.bind(this)
@@ -39,28 +32,28 @@ describe('StatsGopher', function() {
 
   describe('StatsGopher(options)', function() {
     it('throws if the options object does not have an ajax function', function () {
-      expect(catchError(function () {
+      expect(function () {
         new StatsGopher({
           Deferred: SpyDeferred,
           endpoint: 'whatever'
         })
-      })).to.equal("Error: no 'ajax' function specified in options")
+      }).to.throw("no 'ajax' function specified in options")
     });
     it('throws if the options object does not have an endpoint', function () {
-      expect(catchError(function () {
+      expect(function () {
         new StatsGopher({
           Deferred: SpyDeferred,
           ajax: spyAjaxFunction
         })
-      })).to.equal("Error: no 'endpoint' option specified")
+      }).to.throw("no 'endpoint' option specified")
     });
     it('throws if the options object does not have a Deferred constructor', function () {
-      expect(catchError(function () {
+      expect(function () {
         new StatsGopher({
           ajax: spyAjaxFunction,
           endpoint: 'whatever'
         })
-      })).to.equal("Error: no 'Deferred' constructor specified in options")
+      }).to.throw("no 'Deferred' constructor specified in options")
     });
     it('assigns the options to the statsGopher instance', function () {
       var options = {
